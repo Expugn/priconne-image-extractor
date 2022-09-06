@@ -49,10 +49,10 @@ everything, the entire process may take a very long time.
 ### Enabling Regions
 Regions can be enabled/disabled by switching the `enabled` value to be `true`/`false`
 
-## Force Update
+### Force Update
 Turning force update on will cause files to be redownloaded even if they may be the latest version.
 
-## Manifest and Asset Filters (Whitelist/Blacklist)
+### Manifest and Asset Filters (Whitelist/Blacklist)
 ***It is recommended to set this to only files you are interested in before using this script for the first time.***
 
 Filters can help you download only specific game assets that you're interested in.
@@ -81,4 +81,18 @@ For example, to only download character unit icons you can set your filter to be
         ]
     }
 },
+```
+
+If you want to whitelist/blacklist multiple files, you can do so like so:
+```json
+"blacklist": {
+    "manifests": [
+        "all",
+        "storydata"
+    ],
+    "assets": [
+        "unit_icon_shadow_",
+        "unit_icon_unit_2"
+    ]
+}
 ```
