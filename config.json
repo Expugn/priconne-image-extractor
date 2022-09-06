@@ -1,0 +1,68 @@
+{
+    "version_url": "https://raw.githubusercontent.com/Expugn/priconne-database/master/version.json",
+    "EN": {
+        "enabled": false,
+        "host": "assets-priconne-redive-us.akamaized.net"
+    },
+    "JP": {
+        "enabled": true,
+        "host": "prd-priconne-redive.akamaized.net"
+    },
+    "KR": {
+        "enabled": false
+    },
+    "TW": {
+        "enabled": false,
+        "host": "img-pc.so-net.tw"
+    },
+    "force_update": {
+        "manifests": true,
+        "assets": false
+    },
+    "filter": {
+        "EN": {
+            "blacklist": {
+                "manifests": [],
+                "assets": []
+            },
+            "whitelist": {
+                "manifests": [],
+                "assets": []
+            }
+        },
+        "JP": {
+            "blacklist": {
+                "manifests": [],
+                "assets": []
+            },
+            "whitelist": {
+                "manifests": [
+                    "unit"
+                ],
+                "assets": [
+                    "unit_icon_unit_100731"
+                ]
+            }
+        },
+        "KR": {
+            "blacklist": {
+                "manifests": [],
+                "assets": []
+            },
+            "whitelist": {
+                "manifests": [],
+                "assets": []
+            }
+        },
+        "TW": {
+            "blacklist": {
+                "manifests": [],
+                "assets": []
+            },
+            "whitelist": {
+                "manifests": [],
+                "assets": []
+            }
+        }
+    }
+}

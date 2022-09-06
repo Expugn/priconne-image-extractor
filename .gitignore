@@ -1,0 +1,9 @@
+node_modules/
+
+# generated folders
+unity3d/
+image/
+manifests/
+
+version.json
+manifest.json
