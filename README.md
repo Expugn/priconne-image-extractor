@@ -1,5 +1,12 @@
 # priconne-image-extractor
 
+## THIS TOOL CURRENTLY DOES NOT WORK AS OF `April 10th 2023`<br/>DUE TO `priconne-jp`'S LATEST UNITY UPDATE
+Most tools/libraries that deal with Unity extracting/exporting are not updated to work with `priconne-jp`'s Unity3D files at this time, and I would prefer waiting for a proper fix on said tools/libraries.
+
+If you are desperate to extract images, please refer to `esterTion`'s `unity-texture-toolkit`: <https://github.com/esterTion/unity-texture-toolkit>
+
+Please review <https://github.com/Expugn/priconne-image-extractor/issues/1#issuecomment-1509634060> for some setup tips for `unity-texture-toolkit`.
+
 ## Information
 This is a quickly thrown together script that focuses on downloading and extracting image/Texture2D assets from
 different regions of `Princess Connect! Re:Dive`'s content delivery networks.
