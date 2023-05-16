@@ -1,12 +1,5 @@
 # priconne-image-extractor
 
-## THIS TOOL CURRENTLY DOES NOT WORK AS OF `April 10th 2023`<br/>DUE TO `priconne-jp`'S LATEST UNITY UPDATE
-Most tools/libraries that deal with Unity extracting/exporting are not updated to work with `priconne-jp`'s Unity3D files at this time, and I would prefer waiting for a proper fix on said tools/libraries.
-
-If you are desperate to extract images, please refer to `esterTion`'s `unity-texture-toolkit`: <https://github.com/esterTion/unity-texture-toolkit>
-
-Please review <https://github.com/Expugn/priconne-image-extractor/issues/1#issuecomment-1509634060> for some setup tips for `unity-texture-toolkit`.
-
 ## Information
 This is a quickly thrown together script that focuses on downloading and extracting image/Texture2D assets from
 different regions of `Princess Connect! Re:Dive`'s content delivery networks.
@@ -15,8 +8,20 @@ different regions of `Princess Connect! Re:Dive`'s content delivery networks.
 
 Extracted files may take up a lot of space on your hard drive. *Please make sure you have enough space before using this.*
 
+## REGARDING `priconne-jp`'S Unity UPDATE **(FUTURE MANUAL UPDATES MAY BE NEEDED)**
+Since `priconne-jp`'s Unity update on `April 10th, 2023`, SerializedFiles and BundleFiles no longer provide the Unity
+version being used. Unity may update again in the future, and will break this image extractor again.
+
+UnityPy offers a way to set a `UNITY_FALLBACK_VERSION` through its [`config.py`](vendor/UnityPy/UnityPy/config.py) file<br/>
+If this program breaks from another Unity update, you can easily get the Unity version being used if you have the DMM version of the game installed:
+- Locate `PrincessConnectReDive.exe` in `DMM/priconner/` (Open game folder via DMM to locate this path easier)
+- Right-click `PrincessConnectReDive.exe` and click `Properties`
+- Under `Details` tab, see the value under "`Product version`". Copy and replace this value to `config.py`'s `UNITY_FALLBACK_VERSION` if needed.
+
 ## Supported Regions
-- English
+- ~~English~~
+  - English server has ended service as of `April 30, 2023 (UTC)`, CDN server may be offline
+    - <https://twitter.com/priconne_en/status/1652477875331932161>
 - Japanese
 - Korean
 - Taiwan
@@ -30,10 +35,7 @@ Extracted files may take up a lot of space on your hard drive. *Please make sure
 - `python-shell` (`npm install python-shell`) <https://www.npmjs.com/package/python-shell>
 
 ### deserialize.py
-- `UnityPack` (provided) <https://github.com/HearthSim/UnityPack>
-- `lz4` (`pip install lz4`) <https://pypi.org/project/lz4/>
-- `Pillow` (`pip install Pillow`) <https://pypi.org/project/Pillow/>
-- `decrunch` (`pip install decrunch`) <https://pypi.org/project/decrunch/>
+- `UnityPy` (provided) <https://github.com/K0lb3/UnityPy>
 
 ## Running The Script
 With a command prompt open that's pointing to the directory where all the project files are saved:
@@ -42,11 +44,9 @@ node app.js
 ```
 
 ## Auto Image Extracting
-Auto image extracting is only available for Japanese server assets. This is because `UnityPack` does not support
-assets from iOS or Android game versions.
+As of `May 15th, 2023`, auto image extracting is available for all servers thanks to the `UnityPack` -> `UnityPy` upgrade.
 
-If you need English/Korean/Taiwan assets, you can still get them through this script, but you will need to use a
-tool like <https://github.com/Perfare/AssetStudio> to `Load Folder` or `Load File` to get the images.
+All downloaded `unity3d` files will automatically be extracted after download process.
 
 ## config.json
 Before you run the script for the first time, it is recommended that you edit the `config.json` to make sure every

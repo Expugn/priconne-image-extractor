@@ -45,7 +45,7 @@ function get_manifest() {
 
 function download(latest, manifest) {
     return new Promise(async (resolve) => {
-        check_directory('unity3d'); // dir to save .unity3d files
+        check_directory('unity3d', true); // dir to save .unity3d files
         check_directory('manifests'); // dir to save manifests files
         await Promise.all([
             dl_en(),
@@ -58,6 +58,7 @@ function download(latest, manifest) {
     });
 
     function dl_en() {
+        // NOTE: this may no longer work if CDN is offline
         return new Promise(async (resolve) => {
             if (!config.EN.enabled) {
                 // region not enabled
@@ -596,29 +597,36 @@ function deserialize() {
     // UnityPack can't handle iOS/Android files from EN/KR/TW servers.
     // Only JP files will be auto-deserialized.
     // Use https://github.com/Perfare/AssetStudio to extract other region's files
+
+    // UPDATE: May 15th 2023:
+    // Updated from UnityPack to UnityPy, this library can handle iOS files.
+    // https://github.com/Perfare/AssetStudio may have issues in the future if other regions remove the Unity version from SerializedFiles and BundleFiles
+
     return new Promise(async (resolve) => {
-        if (!fs.existsSync(path.join('unity3d', 'JP'))) {
+        if (!fs.existsSync(path.join('unity3d'))) {
             // unity3d directory doesn't exist, meaning probably no new files
             resolve();
             return;
         }
+        console.log("starting deserialization process (this may take a really long time...)");
 
         await Promise.all([
-            de(),
+            de("JP"),
+            de("KR"),
+            de("TW"),
         ]);
 
         resolve();
     });
 
-    function de() {
+    function de(region = "JP") {
         return new Promise(async (resolve) => {
-            const unity3d_dir = path.join('unity3d', 'JP');
+            const unity3d_dir = path.join('unity3d', region);
             if (!fs.existsSync(unity3d_dir)) {
                 resolve();
                 return;
             }
 
-            console.log("starting deserialization process (this may take a really long time...)");
             read_directory(unity3d_dir);
 
             function read_directory(dir) {
@@ -630,16 +638,15 @@ function deserialize() {
                     }
                     else {
                         // assumed .unity3d file
-                        unitypack(f_path);
+                        unitypy(f_path);
                     }
                 }
             }
-
             resolve();
         });
     }
 
-    function unitypack(import_path, silent = false) {
+    function unitypy(import_path, silent = false) {
         // MAKE SURE TO RUN IN PYTHON 3, PYTHON 2 DOES NOT WORK
         const shell = new PythonShell(`${__dirname}/deserialize.py`, { args: [import_path], pythonPath: 'python3' });
         shell.on('message', (message) => {
@@ -672,7 +679,7 @@ function check_directory(directory, clean = false) {
         const files = fs.readdirSync(dir);
         for (const file of files) {
             if (fs.statSync(path.join(dir, file)).isDirectory()) {
-                clean(path.join(dir, file));
+                clean_directory(path.join(dir, file));
                 fs.rmdirSync(path.join(dir, file));
             }
             else {

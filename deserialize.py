@@ -1,19 +1,15 @@
 import sys
 import os
 import pathlib
-from io import BytesIO
-from vendor.UnityPack import unitypack
+from vendor.UnityPy import UnityPy
 
 def open_texture2d(import_path):
     # count Texture2Ds first
     count = 0
-    with open(import_path, 'rb') as f:
-        bundle = unitypack.load(f)
-        for asset in bundle.assets:
-            for id, object in asset.objects.items():
-                if object.type == 'Texture2D':
-                    count += 1
-
+    env = UnityPy.load(import_path)
+    for obj in env.objects:
+        if obj.type.name in ["Texture2D"]:
+            count += 1
     if count == 0:
         # no Texture2D files
         return
@@ -35,37 +31,19 @@ def deserialize(import_path, multiple=False):
         os.makedirs(export_dir) # makedirs if it doesn't exist
 
     with open(import_path, 'rb') as f:
-        bundle = unitypack.load(f)
-        for asset in bundle.assets:
-            for id, object in asset.objects.items():
-                if object.type == 'Texture2D':
-                    data = object.read()
-                    try:
-                        from PIL import ImageOps
-                    except ImportError:
-                        print('ImportError')
-                        continue
-                    try:
-                        image = data.image
-                    except NotImplementedError:
-                        print('\tNotImplementedError')
-                        continue
-                    if image is None:
-                        print('\tEmpty Image')
-                        continue
-                    img = ImageOps.flip(image)
-                    output = BytesIO()
-                    img.save(output, format='png')
+        env = UnityPy.load(import_path)
+        for obj in env.objects:
+            if obj.type.name in ["Texture2D"]:
+                data = obj.read()
+                img = data.image
 
-                    if multiple:
-                        export_path = os.path.join(export_dir, data.name + '.png')
-                    else:
-                        export_path = os.path.join(export_dir, os.path.basename(import_path).split('.')[0] + '.png')
+                if multiple:
+                    export_path = os.path.join(export_dir, data.name, + '.png')
+                else:
+                    export_path = os.path.join(export_dir, os.path.basename(import_path).split('.')[0] + '.png')
 
-                    with open(export_path, 'wb') as fi:
-                        fi.write(output.getvalue())
-                        print('<DESERIALIZE>', import_path, '->', export_path)
-
+                img.save(export_path)
+                print('<DESERIALIZE>', import_path, '->', export_path)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
