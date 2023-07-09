@@ -19,11 +19,13 @@ If this program breaks from another Unity update, you can easily get the Unity v
 - Under `Details` tab, see the value under "`Product version`". Copy and replace this value to `config.py`'s `UNITY_FALLBACK_VERSION` if needed.
 
 ## Supported Regions
+- China
 - ~~English~~
   - English server has ended service as of `April 30, 2023 (UTC)`, CDN server may be offline
     - <https://twitter.com/priconne_en/status/1652477875331932161>
 - Japanese
 - Korean
+- Thailand
 - Taiwan
 
 ## Requirements

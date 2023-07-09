@@ -38,7 +38,7 @@ def deserialize(import_path, multiple=False):
                 img = data.image
 
                 if multiple:
-                    export_path = os.path.join(export_dir, data.name, + '.png')
+                    export_path = os.path.join(export_dir, data.name + '.png')
                 else:
                     export_path = os.path.join(export_dir, os.path.basename(import_path).split('.')[0] + '.png')
 
